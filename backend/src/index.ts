@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import axios from "axios";
+import express, { Request, Response, Router } from "express";
 
 dotenv.config();
 
@@ -82,4 +83,20 @@ async function startLongPolling() {
 }
 
 // Запускаем Long Polling
-startLongPolling();
+// startLongPolling();
+
+const app = express();
+
+app.listen(3000, async () => {
+  console.log(`Server is up and running on port: ${3000}`);
+});
+
+const mainRouter = Router();
+
+mainRouter.post("/webhook", async (req: Request, res: Response) => {
+  console.log("Получено сообщение");
+  res.status(200).json({ message: "Получено сообщение" });
+  return;
+});
+
+app.use(mainRouter);
