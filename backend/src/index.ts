@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import axios from "axios";
 import express, { Request, Response, Router } from "express";
+import path from "path";
 
 dotenv.config();
 
@@ -97,6 +98,15 @@ mainRouter.post("/webhook", async (req: Request, res: Response) => {
   console.log("Получено сообщение");
   res.status(200).json({ message: "Получено сообщение" });
   return;
+});
+
+// Статические файлы React-приложения
+const reactBuildPath = path.join(__dirname, "../frontend"); // Путь к собранному React-приложению
+app.use("/mini-app", express.static(reactBuildPath));
+
+// Для всех остальных запросов отдаём главную страницу React-приложения
+app.get("/mini-app/*", (req, res) => {
+  res.sendFile(path.join(reactBuildPath, "index.html"));
 });
 
 app.use(mainRouter);
