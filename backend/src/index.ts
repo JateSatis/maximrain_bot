@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import express, { Request, Response, Router } from "express";
 import path from "path";
+import { UpdateBodyDto } from "./updateStructure";
 
 dotenv.config();
 
@@ -42,7 +43,18 @@ async function sendMessage(chatId: number, text: string) {
 const mainRouter = Router();
 
 mainRouter.post("/webhook", async (req: Request, res: Response) => {
-  console.log(req.body);
+	const updateBody: UpdateBodyDto = req.body;
+	await axios.post(`${API_URL}/setChatMenuButton`, {
+		chat_id: updateBody.message.chat.id,
+		menu_button: {
+			type: "web_app",
+			text: "Открыть сайт",
+			web_app: {
+				url: "https://timer-dmb.ru/mini-app"
+			}
+		}
+  });
+	res.sendStatus(200)
   return;
 });
 
