@@ -54,6 +54,22 @@ mainRouter.post("/webhook", async (req: Request, res: Response) => {
 			}
 		}
   });
+	const message = updateBody.message;
+	if (message.text && message.text.startsWith('/') && !message.text.includes(' ')) {
+		const command = message.text.slice(1); // Remove the '/' prefix
+		
+		// Handle different commands
+		switch (command) {
+			case 'start':
+				await sendMessage(message.chat.id, 'Welcome! Bot has started.');
+				break;
+			case 'help':
+				await sendMessage(message.chat.id, 'Available commands:\n/start - Start the bot\n/help - Show this help message');
+				break;
+			default:
+				await sendMessage(message.chat.id, 'Unknown command. Use /help to see available commands.');
+		}
+	}
 	res.sendStatus(200)
   return;
 });
