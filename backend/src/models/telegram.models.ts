@@ -1,4 +1,4 @@
-export type UpdateBodyDto = {
+export type TelegramUpdateDto = {
   update_id: number;
   message: {
     message_id: number;

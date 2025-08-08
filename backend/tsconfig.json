@@ -24,6 +24,6 @@
     "baseUrl": "./",
     "paths": {}
   },
-  "exclude": ["node_modules"],
+  "exclude": ["controller/node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }
